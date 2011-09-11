@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block maincontent %}
+<h1>Album: {{ album_detail.name }}</h1>
+<a href="{% url fb-albums %}" title="">Back to Albums</a>
+<div id="album">
+{% if album %}
+<ul class="picture-gallery">
+{% for pic in album %}
+<li><a href="{{ pic.src_big }}" title="{{ pic.name }}"><img src="{{ pic.src }}" alt="{{ pic.caption }}" />
+<span>{{ pic.caption }}</span></a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>There are no photos in this album.</p>
+{% endif %}
+</div>
+{% endblock %}

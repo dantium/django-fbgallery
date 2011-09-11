@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block maincontent %}
+<h1>Albums</h1>
+<p>Select an album to view.</p>
+<div id="albums">
+{% if albums %}
+<ul class="picture-gallery">
+{% for album in albums %}
+<li><a href="{% url fb-album album.aid %}" title="{{ album.name }}"><img src="{{ album.src }}" alt="{{ album.name }}" />
+<span>{{ album.name }}</span></a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>There are no photo albums.</p>
+{% endif %}
+</div>
+{% endblock %}
