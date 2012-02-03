@@ -22,7 +22,7 @@ def get_fql_result(fql):
         }
         f = urllib2.urlopen(urllib2.Request(fql_url, urllib.urlencode(options)))
         response = f.read()
-        f.close()
+        f.close()  
         data = json.loads(response)
         if cache_expires > 0:
             cache.set(cachename, data, cache_expires*60)
@@ -30,14 +30,13 @@ def get_fql_result(fql):
     
 def display_albums(request, fb_id):
     """ Fetch all facebook albums for specified id """
-
     fql = "select aid, cover_pid, name from album where owner=%s" % fb_id;
     albums = get_fql_result(fql)
     for i in range(len(albums)):
+        """ Get the main photo for each Album """
         fql = "select src from photo where pid = '%s'" % albums[i]['cover_pid'];
-        [item for sublist in get_fql_result(fql) for item in sublist]
-        albums[i]['src'] = sublist['src']
-          
+        for item in get_fql_result(fql):
+            albums[i]['src'] = item['src']
     data = RequestContext(request, {
         'albums':albums,
         })
@@ -45,7 +44,7 @@ def display_albums(request, fb_id):
     return render_to_response('fbgallery/albums.html', context_instance=data)
     
     
-def display_album(request,album_id,fb_id):
+def display_album(request, album_id, fb_id):
     """ Display a facebook album, first check that the album id belongs to the page id specified """
     fql = "select aid, name from album where owner=%s and aid='%s'" % (fb_id, album_id)
     valid_album = get_fql_result(fql)

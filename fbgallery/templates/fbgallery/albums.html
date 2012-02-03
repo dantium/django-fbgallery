@@ -7,8 +7,10 @@
 {% if albums %}
 <ul class="picture-gallery">
 {% for album in albums %}
-<li><a href="{% url fb-album album.aid %}" title="{{ album.name }}"><img src="{{ album.src }}" alt="{{ album.name }}" />
-<span>{{ album.name }}</span></a></li>
+	{% if album.src %}
+	<li><a href="{% url fb-album album.aid %}" title="{{ album.name }}"><img src="{{ album.src }}" alt="{{ album.name }}" />
+	<span>{{ album.name }}</span></a></li>
+	{% endif %}
 {% endfor %}
 </ul>
 {% else %}
